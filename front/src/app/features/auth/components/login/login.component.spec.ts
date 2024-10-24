@@ -39,4 +39,9 @@ describe('LoginComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should not log in if email and password are missing', () => {
+    component.form.setValue({email: '', password: ''});
+    expect(component.form.invalid).toBeTruthy();
+  });
 });

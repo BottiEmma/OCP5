@@ -20,7 +20,7 @@ describe('RegisterComponent', () => {
       imports: [
         BrowserAnimationsModule,
         HttpClientModule,
-        ReactiveFormsModule,  
+        ReactiveFormsModule,
         MatCardModule,
         MatFormFieldModule,
         MatIconModule,
@@ -37,4 +37,10 @@ describe('RegisterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should not register if email, first name, last name and password are missing', () => {
+    component.form.setValue({email: '', firstName: '', lastName: '', password: ''});
+    expect(component.form.invalid).toBeTruthy();
+  });
+
 });
