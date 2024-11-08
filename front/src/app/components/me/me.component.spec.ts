@@ -25,10 +25,10 @@ describe('MeComponent', () => {
     sessionInformation: {
       admin: true,
       id: 1
-    }
+    },
+    logOut: jest.fn()
   }
   beforeEach(async () => {
-    sessionService = { sessionInformation: mockSessionService, logOut: jest.fn()} as any;
     router = { navigate: jest.fn() } as any;
     matSnackBar = { open: jest.fn() } as any;
     userService = { getById: jest.fn().mockReturnValue(of({})), delete: jest.fn().mockReturnValue(of({})) } as any;
@@ -53,6 +53,7 @@ describe('MeComponent', () => {
 
     fixture = TestBed.createComponent(MeComponent);
     component = fixture.componentInstance;
+    sessionService = TestBed.inject(SessionService);
     fixture.detectChanges();
   });
 
@@ -77,11 +78,12 @@ describe('MeComponent', () => {
 
   it('should delete user', () => {
     jest.spyOn(userService, 'delete').mockReturnValue(of({}));
+    const logOutSpy = jest.spyOn(sessionService, 'logOut');
     component.delete();
     fixture.detectChanges();
     expect(userService.delete).toHaveBeenCalledWith('1');
     expect(matSnackBar.open).toHaveBeenCalledWith("Your account has been deleted !", 'Close', { duration: 3000 });
-    expect(sessionService.logOut).toHaveBeenCalled();
+    expect(logOutSpy).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['/']);
   });
 });

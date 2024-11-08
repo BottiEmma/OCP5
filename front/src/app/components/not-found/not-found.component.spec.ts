@@ -21,4 +21,13 @@ describe('NotFoundComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display "Page Not Found" in the h1 tag', () => {
+    // Find the h1 element with class "textcontent"
+    const h1Element = fixture.nativeElement.querySelector('h1');
+
+    // Ensure the h1 text content is "Page Not Found"
+    expect(h1Element.textContent).toBe('Page not found !');
+  });
+
 });

@@ -30,7 +30,7 @@ describe('LoginComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [LoginComponent],
       providers: [
-        {provide: sessionService, useValue: SessionService},
+        {provide: SessionService, useValue: sessionService},
         {provide: Router, useValue: router},
         {provide: AuthService, useValue: authService},
       ],
@@ -74,8 +74,8 @@ describe('LoginComponent', () => {
 
   it('should log in and redirect to /sessions', () => {
     // Mock de la session
-    const sessionInformation: SessionInformation = {token: 'token', type: 'type', id: 1, username: 'username', firstName: 'firstname', lastName: 'lastname', admin: true};
-    jest.spyOn(authService, 'login').mockReturnValue(of(sessionInformation));
+    const sessionInformation: SessionInformation = {token: 'token', type: 'type', id: 1, username: 'username', firstName: 'firstname', lastName: 'lastname', admin: false};
+
     const loginSpy = jest.spyOn(authService, 'login').mockReturnValue(of(sessionInformation));
     const logInSpy = jest.spyOn(sessionService, 'logIn');
     // Bons identifiants dans le formulaire
@@ -84,7 +84,6 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
 
     expect(loginSpy).toHaveBeenCalled();
-    expect(logInSpy).toHaveBeenCalled(); // First check if it was called at all
     expect(logInSpy).toHaveBeenCalledWith(sessionInformation);
     expect(router.navigate).toHaveBeenCalledWith(['/sessions']);
   });
