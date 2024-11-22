@@ -33,4 +33,6 @@ describe('ListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  //should get all the sessions and display them
 });

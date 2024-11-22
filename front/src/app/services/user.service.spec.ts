@@ -25,7 +25,7 @@ describe('UserService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should fetch all teachers', () => {
+  it('should get user by ID', () => {
     const mockUser: User = {
       id: 1,
       email: 'test@example.com',
