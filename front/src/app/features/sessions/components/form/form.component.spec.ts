@@ -35,6 +35,14 @@ describe('FormComponent', () => {
     }
   }
 
+  const mockedSession: Session = {
+    name: "Session to update",
+    date: new Date(),
+    teacher_id: 1,
+    description: "La session mockée",
+    users: []
+  };
+
   beforeEach(async () => {
     route = { snapshot: { paramMap: { get: jest.fn().mockReturnValue('1'), has: jest.fn().mockReturnValue('1'),  getAll: jest.fn().mockReturnValue('1'), keys: jest.fn() } } } as any;
     matSnackBar = { open: jest.fn() } as any;
@@ -95,5 +103,23 @@ describe('FormComponent', () => {
     expect(sessionApiService.create).toHaveBeenCalledWith({name: 'name', date: '2024-10-25', teacher_id: '1', description: 'description'});
     expect(matSnackBar.open).toHaveBeenCalledWith('Session created !', 'Close', { duration: 3000 });
     expect(router.navigate).toHaveBeenCalledWith(['sessions']);
+  });
+
+  it("should initialize the 'create' form", () => {
+
+    expect(component.sessionForm).toBeTruthy();
+    expect(component.sessionForm?.controls["name"].value).toBe("");
+    expect(component.sessionForm?.controls["date"].value).toBe("");
+    expect(component.sessionForm?.controls["teacher_id"].value).toBe("");
+    expect(component.sessionForm?.controls["description"].value).toBe("");
+
+  });
+
+  it("should display 'creation' form", () => {
+
+    const title = fixture.nativeElement.querySelector("h1");
+
+    expect(title.textContent).toBe("Create session");
+
   });
 });
