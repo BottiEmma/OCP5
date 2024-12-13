@@ -11,11 +11,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
 @Builder
 @AllArgsConstructor
-@Getter
+@Data
 public class UserDetailsImpl implements UserDetails {
   private static final long serialVersionUID = 1L;
 
