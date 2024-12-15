@@ -36,6 +36,7 @@ npm run test
 Les tests end-to-end :
 ```
 npm run e2e
+npm run e2e:ci
 ```
 Les tests back-end :
 ```
