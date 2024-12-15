@@ -1,6 +1,7 @@
 package com.openclassrooms.starterjwt.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -51,6 +52,17 @@ public class TeacherServiceTest {
 
         assertEquals(teacher, result);
         verify(teacherRepository, times(1)).findById(id);
+    }
+
+    @Test
+    void testFindById_TeacherDoesNotExist() {
+        when(teacherRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Teacher foundTeacher = teacherService.findById(1L);
+
+        assertNull(foundTeacher);
+
+        verify(teacherRepository, times(1)).findById(1L);
     }
 
 }

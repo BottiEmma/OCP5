@@ -1,5 +1,5 @@
-describe('Create spec', () => {
-  it('Create session', () => {
+describe('Delete spec', () => {
+  it('should delete session', () => {
     cy.visit('/login')
 
     cy.intercept('POST', '/api/auth/login', {
@@ -41,7 +41,7 @@ describe('Create spec', () => {
         lastName: 'DELAHAYE',
       }
     }).as('teacherDetail')
-    cy.intercept('POST', '/api/session', {
+    cy.intercept('GET', '/api/session/1', {
       body:
         {
           id: 1,
@@ -50,15 +50,18 @@ describe('Create spec', () => {
           description: 'desc',
         },
     }).as('sessionDetail')
-    cy.contains('Create').click();
-    cy.get('form').should('be.visible');
-    cy.url().should('include', '/create');
-    cy.get('input[formControlName=name]').type("session")
-    cy.get('input[formControlName=date]').type("2024-11-15")
-    cy.get('mat-select[formControlName=teacher_id]').click().get('mat-option').contains('Margot DELAHAYE').click();
-    cy.get('textarea[formControlName=description]').type("desc")
-    cy.get('button[type=submit]').click()
-    cy.url().should('include', '/sessions')
+    cy.contains('Detail').click();
+    cy.url().should('include', '/detail/1');
+
+    cy.intercept('DELETE', '/api/session/1', {
+      statusCode: 200,
+      body: {}
+    }).as('deleteSession');
+
+    cy.contains('Delete').should('be.visible');
+    cy.contains('Delete').click();
+
+    cy.wait('@deleteSession');
   })
 
   it('should redirect to login if the user in not logged', () => {

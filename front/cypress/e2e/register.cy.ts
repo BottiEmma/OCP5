@@ -1,4 +1,12 @@
 describe('Register spec', () => {
+  beforeEach(() => {
+    cy.visit('/login');
+  });
+  it('should go to register page when register is clicked', () => {
+    cy.contains('Register').click();
+
+    cy.url().should('include', '/register');
+  });
   it('Register successfull', () => {
     cy.visit('/register')
 
@@ -26,4 +34,13 @@ describe('Register spec', () => {
 
     cy.url().should('include', '/login')
   })
+
+  it('should not register with bad credentials', () => {
+    cy.visit('/register')
+    cy.get('input[formControlName=firstName]').type("testing")
+    cy.get('input[formControlName=lastName]').type("cypress")
+    cy.get('input[formControlName=email]').type("ffefezze")
+    cy.get('input[formControlName=password]').type(`${"test!1234"}{enter}{enter}`)
+    cy.get('button[type=submit]').should('be.disabled');
+  });
 });

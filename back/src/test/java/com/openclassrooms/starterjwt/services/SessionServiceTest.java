@@ -2,12 +2,16 @@ package com.openclassrooms.starterjwt.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import com.openclassrooms.starterjwt.repository.SessionRepository;
 import com.openclassrooms.starterjwt.repository.UserRepository;
+import com.openclassrooms.starterjwt.exception.BadRequestException;
+import com.openclassrooms.starterjwt.exception.NotFoundException;
 import com.openclassrooms.starterjwt.models.Session;
 import com.openclassrooms.starterjwt.models.User;
 
@@ -117,6 +123,36 @@ public class SessionServiceTest {
 
         assertFalse(session.getUsers().contains(user));
         Mockito.verify(sessionRepository).save(session);
+    }
+
+    @Test
+    void testParticipate_AlreadyParticipates() {
+        Session session = new Session();
+        User user = new User();
+        user.setId(1L);
+        session.setUsers(Arrays.asList(user));
+        when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        assertThrows(BadRequestException.class, () -> {
+            sessionService.participate(1L, 1L);
+        });
+
+        verify(sessionRepository, times(1)).findById(1L);
+        verify(userRepository, times(1)).findById(1L);
+        verify(sessionRepository, never()).save(any(Session.class));
+    }
+
+    @Test
+    void testNoLongerParticipate_SessionNotFound() {
+        when(sessionRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            sessionService.noLongerParticipate(1L, 1L);
+        });
+
+        verify(sessionRepository, times(1)).findById(1L);
+        verify(sessionRepository, never()).save(any(Session.class));
     }
   
 

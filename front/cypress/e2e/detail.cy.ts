@@ -46,11 +46,18 @@ describe('Detail spec', () => {
         {
           id: 1,
           name: 'test',
-          teacher_id: 1,
           description: 'desc',
+          date: '2024-07-30T10:00:00.000Z',
+          teacher_id: 2,
+          users: []
         },
     }).as('sessionDetail')
     cy.contains('Detail').click();
     cy.url().should('include', '/detail/1');
   })
+
+  it('should redirect to login if the user in not logged', () => {
+    cy.visit('/sessions');
+    cy.url().should('include', '/login');
+  });
 });
