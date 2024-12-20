@@ -127,5 +127,13 @@ public class UserDetailsImplTest {
 
         assertTrue(userDetails.equals(sameIdUserDetails));
     }
+
+    @Test
+    void testToString() {
+
+        String expectedToString = "UserDetailsImpl(id=1, username=testUser, firstName=John, lastName=Doe, admin=true, password=password)";
+        
+        assertEquals(expectedToString, userDetails.toString());
+    }
 }
 

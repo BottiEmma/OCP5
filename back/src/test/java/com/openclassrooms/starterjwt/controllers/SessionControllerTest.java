@@ -133,11 +133,20 @@ public class SessionControllerTest {
                 .andExpect(content().json("{\"name\":\"test\",\"description\":\"desc\"}"));
     }
 
+
     @Test
     @WithMockUser(username = "john.doe@example.com")
     void testParticipate() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/session/2/participate/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "john.doe@example.com")
+    void testNoLongerParticipate() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/session/2/participate/1"))
                 .andExpect(status().isOk());
     }
 
