@@ -23,7 +23,7 @@ npm run start
 ```
 Puis, dans le dossier back : 
 ```
-npm run start
+mvn spring-boot:run
 ```
 
 Il suffit ensuite de se rendre à l'adresse http://localhost:4200/
@@ -50,7 +50,7 @@ End-to-End :
 npm run e2e:coverage
 ```
 La couverture se trouve dans le fichier front/coverage/lcov-report/index.html  
-Back-End : Ouvrir le fichir back/target/site/jacoco/index.html dans un navigateur.
+Back-End : Ouvrir le fichier back/target/site/jacoco/index.html dans un navigateur.
 
 
 
